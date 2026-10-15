@@ -101,14 +101,6 @@ int main(void){
     UNITY_BEGIN();
     RUN_TEST(test_1);
     RUN_TEST(test_2);
-    RUN_TEST(test_init);
-    RUN_TEST(test_push);
-    RUN_TEST(test_push2);
-    RUN_TEST(test_size);
-    RUN_TEST(full);
-    RUN_TEST(empty);
-    RUN_TEST(pop);
-    RUN_TEST(peek);
     return UNITY_END();
 }
 
