@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "int_ring.h"
+#include <stdio.h>
 
 IntRing ring;
 
@@ -71,79 +72,35 @@ void test_6(void){
     TEST_ASSERT_FALSE(int_ring_pop(&ring, &x));
 }
 
+void test_7(void){
+    int x;
+    for(unsigned int i = 0U; i < 2*INT_RING_CAPACITY; i++){
+        
+        TEST_ASSERT_TRUE(int_ring_push(&ring, 1));
+        TEST_ASSERT_TRUE(int_ring_pop(&ring, &x));
+    }
+}
 
+void test_8(void){
+    int x;
+    int_ring_push(&ring, 1);
+    int_ring_push(&ring, 1);
+    int_ring_push(&ring, 1);
+    int_ring_push(&ring, 1);
+    int_ring_pop(&ring, &x);
+    int_ring_pop(&ring, &x);
+    int_ring_pop(&ring, &x);
+    int_ring_pop(&ring, &x);
 
-void test_init(void){
     TEST_ASSERT_TRUE(int_ring_is_empty(&ring));
+
+    TEST_ASSERT_FALSE(int_ring_pop(&ring, &x));
+    TEST_ASSERT_TRUE(int_ring_push(&ring, 10));
+    TEST_ASSERT_TRUE(int_ring_pop(&ring, &x));
+    TEST_ASSERT_EQUAL(x, 10);
+
 }
 
-void test_push(void){
-    int_ring_push(&ring, 10);
-    TEST_ASSERT_EQUAL(10, ring.data[0]);
-}
-
-void test_push2(void){
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    TEST_ASSERT_FALSE(int_ring_push(&ring, 1));
-}
-
-void test_size(void){
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-
-    TEST_ASSERT_EQUAL(2, ring.size);
-}
-
-void full(void){
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 1);
-    //TEST_ASSERT_EQUAL(4, ring.size);
-    TEST_ASSERT_TRUE(int_ring_is_full(&ring));
-}
-
-void empty(void){
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 2);
-    
-    TEST_ASSERT_FALSE(int_ring_is_empty(&ring));
-}
-
-void pop(void){
-    int valor;
-    TEST_ASSERT_FALSE(int_ring_peek(&ring, &valor));
-
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 2);
-    int_ring_pop(&ring, &valor);
-    TEST_ASSERT_EQUAL(1, int_ring_size(&ring));
-    int_ring_pop(&ring, &valor);
-    TEST_ASSERT_TRUE(int_ring_is_empty(&ring));
-}
-
-void peek(void){
-    int valor;
-    TEST_ASSERT_FALSE(int_ring_peek(&ring, &valor));
-
-    int_ring_push(&ring, 1);
-    int_ring_push(&ring, 2);
-    
-
-    int_ring_peek(&ring, &valor);
-    TEST_ASSERT_EQUAL(1, valor);
-}
 
 int main(void){
     UNITY_BEGIN();
@@ -153,6 +110,9 @@ int main(void){
     RUN_TEST(test_4);
     RUN_TEST(test_5);
     RUN_TEST(test_6);
+    RUN_TEST(test_7);
+    RUN_TEST(test_8);
+
     return UNITY_END();
 }
 
